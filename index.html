@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trò chơi Tìm con chữ</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Comic Sans MS", sans-serif;
+      background: linear-gradient(135deg, #f9e8ff, #c4f1ff);
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      text-align: center;
+    }
+    h1 {
+      color: #ff66b3;
+      font-size: 2.8em;
+      text-shadow: 2px 2px 4px #fff;
+      animation: glow 2s infinite alternate;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #ffb3e6; }
+      to { text-shadow: 0 0 20px #ff66b3, 0 0 30px #ff99cc; }
+    }
+    button {
+      padding: 15px 40px;
+      border: none;
+      border-radius: 50px;
+      background-color: #ff99cc;
+      color: white;
+      font-size: 1.2em;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: transform 0.2s, background-color 0.3s;
+    }
+    button:hover {
+      background-color: #ff66b3;
+      transform: scale(1.1);
+    }
+    .hidden {
+      display: none;
+    }
+    .game-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 80px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+    .item {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 25px;
+      box-shadow: 0 4px 15px rgba(255, 102, 179, 0.3);
+      padding: 25px;
+      width: 240px;
+      transition: transform 0.3s ease-in-out;
+      animation: bounce 3s ease-in-out infinite, glowBox 2s alternate infinite;
+    }
+    .item:hover {
+      transform: scale(1.08);
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    @keyframes glowBox {
+      from { box-shadow: 0 0 10px #ffd1ec; }
+      to { box-shadow: 0 0 25px #ff66b3, 0 0 35px #ffb3e6; }
+    }
+
+    .item img {
+      width: 100%;
+      height: 200px;
+      object-fit: contain;
+      border-radius: 20px;
+      animation: pulse 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    /* Màu riêng cho từng chữ */
+    .item:nth-child(1) p { color: #ff4d6d; } /* Áo dài - hồng */
+    .item:nth-child(2) p { color: #4da6ff; } /* Tăm bông - xanh dương */
+    .item:nth-child(3) p { color: #33cc66; } /* Cây cầu - xanh lá */
+
+    .item p {
+      font-size: 1.4em;
+      margin-top: 10px;
+      text-shadow: 1px 1px 3px #fff;
+      animation: fadeColor 2s infinite alternate;
+    }
+
+    @keyframes fadeColor {
+      from { filter: brightness(1); }
+      to { filter: brightness(1.3); }
+    }
+
+    .fade-in {
+      animation: fadeIn 1.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🧩 Trò chơi Tìm con chữ 🧩</h1>
+
+  <div id="start-screen">
+    <button id="start-btn">Bắt đầu</button>
+  </div>
+
+  <div id="game-screen" class="hidden">
+    <div class="game-container">
+      <div class="item fade-in">
+        <img src="images/aodai.png" alt="Áo dài">
+        <p>Áo dài</p>
+      </div>
+      <div class="item fade-in">
+        <img src="images/tambong.png" alt="Tăm bông">
+        <p>Tăm bông</p>
+      </div>
+      <div class="item fade-in">
+        <img src="images/caucau.png" alt="Cây cầu">
+        <p>Cây cầu</p>
+      </div>
+    </div>
+    <button id="end-btn" style="margin-top:40px; background-color:#ff6666;">Kết thúc</button>
+  </div>
+
+  <audio id="bg-music" src="sounds/background.mp3" loop></audio>
+
+  <script>
+    const startBtn = document.getElementById("start-btn");
+    const endBtn = document.getElementById("end-btn");
+    const startScreen = document.getElementById("start-screen");
+    const gameScreen = document.getElementById("game-screen");
+    const bgMusic = document.getElementById("bg-music");
+
+    startBtn.addEventListener("click", () => {
+      startScreen.classList.add("hidden");
+      gameScreen.classList.remove("hidden");
+      bgMusic.currentTime = 0;
+      bgMusic.play().catch(()=>{});
+    });
+
+    endBtn.addEventListener("click", () => {
+      bgMusic.pause();
+      bgMusic.currentTime = 0;
+      gameScreen.classList.add("hidden");
+      startScreen.classList.remove("hidden");
+    });
+  </script>
+
+</body>
+</html>
